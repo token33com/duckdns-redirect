@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Przekierowanie...</title>
+    <script>
+      async function przekieruj() {
+        const domena = "token33.duckdns.org";
+        try {
+          const res = await fetch(`https://dns.google/resolve?name=${domena}&type=TXT`);
+          const data = await res.json();
+          const txt = data.Answer[0].data.replace(/"/g, "");
+          if (txt.startsWith("https://")) {
+            window.location.href = txt;
+          } else {
+            document.body.innerText = "Brak poprawnego rekordu TXT z adresem ngrok.";
+          }
+        } catch (e) {
+          document.body.innerText = "Błąd pobierania danych DNS.";
+        }
+      }
+      window.onload = przekieruj;
+    </script>
+  </head>
+  <body>
+    Trwa przekierowywanie...
+  </body>
+</html>
